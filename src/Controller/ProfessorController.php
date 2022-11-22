@@ -1,0 +1,21 @@
+<?php
+declare(strict_types=1);
+class ProfessorController
+{
+    public function listar(): void
+    {
+        echo "Pagina de listar";
+    }
+    public function cadastar(): void
+    {
+        echo "Pagina de cadastrar";
+    }
+    public function excluir(): void
+    {
+        echo "Pagina de excluir";
+    }
+    public function editar(): void
+    {
+        echo "Pagina de editar";
+    }
+}
