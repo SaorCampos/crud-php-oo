@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
-class AlunoController
+class AlunoController extends Render
 {
     public function listar(): void
     {
-        echo "Pagina de listar";
+        $this->renderizar('listar');
     }
     public function cadastrar(): void
     {
-        echo "Pagina de cadastrar";
+        $this->renderizar('cadastrar');
     }
     public function excluir(): void
     {
@@ -16,6 +16,11 @@ class AlunoController
     }
     public function editar(): void
     {
-        echo "Pagina de editar";
+        $this->renderizar('editar');
+    }
+    public function renderizar(string $arquivo, ?array $dados = null)
+    {
+        include "../Views/aluno/{$arquivo}.phtml";
+        $dados;
     }
 }

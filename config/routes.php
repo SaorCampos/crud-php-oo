@@ -2,6 +2,7 @@
 include '../src/Controller/AlunoController.php';
 include '../src/Controller/CursoController.php';
 include '../src/Controller/ProfessorController.php';
+include '../src/Controller/SiteController.php';
 function criarRota(string $controllerNome, string $methodNome): array
 {
     return[
@@ -10,7 +11,7 @@ function criarRota(string $controllerNome, string $methodNome): array
     ];
 }
 $rotas = [
-    // '/'=> 'Pagina inicial',
+    '/'=> criarRota(SiteController::class, 'inicio'),
     '/alunos/listar'=> criarRota(AlunoController::class, 'listar'),
     '/alunos/novo'=> criarRota(AlunoController::class, 'cadastrar'),
     '/alunos/editar'=> criarRota(AlunoController::class, 'editar'),
