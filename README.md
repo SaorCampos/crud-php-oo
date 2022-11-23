@@ -1,4 +1,4 @@
-### Programas/Extensões necessáras para executar o projeto:
+### Requesitos necessários para executar o projeto:
 Instalar o PHP e
 instalar o composer.
 
