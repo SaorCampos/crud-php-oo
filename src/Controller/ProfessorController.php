@@ -1,21 +1,22 @@
 <?php
 declare(strict_types=1);
-class ProfessorController
+namespace App\Controller;
+class ProfessorController extends AbstractController
 {
     public function listar(): void
     {
-        echo "Pagina de listar";
+        $this->render('professor/listar');
     }
     public function cadastar(): void
     {
-        echo "Pagina de cadastrar";
+        $this->render('professor/cadastrar');
     }
     public function excluir(): void
     {
-        echo "Pagina de excluir";
+        $this->render('professor/excluir');
     }
     public function editar(): void
     {
-        echo "Pagina de editar";
+        $this->render('professor/editar');
     }
 }

@@ -1,8 +1,8 @@
 <?php
-include '../src/Controller/AlunoController.php';
-include '../src/Controller/CursoController.php';
-include '../src/Controller/ProfessorController.php';
-include '../src/Controller/SiteController.php';
+use App\Controller\AlunoController;
+use App\Controller\CursoController;
+use App\Controller\ProfessorController;
+use App\Controller\SiteController;
 function criarRota(string $controllerNome, string $methodNome): array
 {
     return[

@@ -1,21 +1,22 @@
 <?php
 declare(strict_types=1);
-class CursoController
+namespace App\Controller;
+class CursoController extends AbstractController
 {
     public function listar(): void
     {
-        echo "Pagina de listar";
+        $this->render('curso/listar');
     }
     public function cadastrar(): void
     {
-        echo "Pagina de cadastrar";
+        $this->render('curso/listar');
     }
     public function excluir(): void
     {
-        echo "Pagina de excluir";
+        $this->render('curso/listar');
     }
     public function editar(): void
     {
-        echo "Pagina de editar";
+        $this->render('curso/listar');
     }
 }
