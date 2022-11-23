@@ -2,7 +2,7 @@
 declare(strict_types=1);
 class SiteController
 {
-    public function incio(): void
+    public function inicio(): void
     {
         echo "Pagina incial";
     }

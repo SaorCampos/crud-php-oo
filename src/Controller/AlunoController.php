@@ -1,26 +1,21 @@
 <?php
 declare(strict_types=1);
-class AlunoController extends Render
+class AlunoController extends AbstractController
 {
     public function listar(): void
     {
-        $this->renderizar('listar');
+        $this->render('aluno/listar');
     }
     public function cadastrar(): void
     {
-        $this->renderizar('cadastrar');
+        $this->render('aluno/cadastrar');
     }
     public function excluir(): void
     {
-        echo "Pagina de excluir";
+        $this->render('aluno/excluir');
     }
     public function editar(): void
     {
-        $this->renderizar('editar');
-    }
-    public function renderizar(string $arquivo, ?array $dados = null)
-    {
-        include "../Views/aluno/{$arquivo}.phtml";
-        $dados;
+        $this->render('aluno/editar');
     }
 }

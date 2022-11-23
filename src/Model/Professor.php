@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
-class Professor
+class Professor extends Pessoa
 {
-    public string $nome;
-    public string $cpf;
     public string $endereco;
     public ?string $formacao = null;
     public bool $status;
