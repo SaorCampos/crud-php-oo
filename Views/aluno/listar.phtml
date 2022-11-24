@@ -30,6 +30,10 @@
                             <td>{$aluno->genero}</td>
                             <td>{$aluno->status}</td>
                             <td>{$aluno->dataNascimento}</td>
+                            <td>
+                                <a href='/editar?id={$aluno->id}' class='btn btn-outline-warning'>Editar</a>
+                                <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modalexcluir' onclick='pegarID({$aluno->id})'>Excluir</button>
+                            </td>
                         </tr>
                     ";
                 }

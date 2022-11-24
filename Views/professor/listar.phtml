@@ -11,13 +11,29 @@
                 <th>CPF</th>
                 <th>Endereço</th>
                 <th>Status</th>
-                <th>Horario Disponivel</th>
                 <th>Formação</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-
+            <?php
+            foreach($professores as $professor){
+                echo"
+                    <tr>
+                        <td>{$professor->id}</td>
+                        <td>{$professor->nome}</td>
+                        <td>{$professor->cpf}</td>
+                        <td>{$professor->endereço}</td>
+                        <td>{$professor->status}</td>
+                        <td>{$professor->formação}</td>
+                        <td>
+                            <a href='/editar?id={$professor->id}' class='btn btn-outline-warning'>Editar</a>
+                            <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modalexcluir' onclick='pegarID({$professor->id})'>Excluir</button>
+                        </td>
+                    </tr>
+                ";
+            }
+            ?>
         </tbody>
     </table>
 </section>

@@ -1,11 +1,18 @@
 <?php
 declare(strict_types=1);
 namespace App\Controller;
+
+use App\Repository\ProfessorRepository;
+
 class ProfessorController extends AbstractController
 {
     public function listar(): void
     {
-        $this->render('professor/listar');
+        $rep = new ProfessorRepository();
+        $professores = $rep->buscarTodos();
+        $this->render('professor/listar', [
+            'professores'=>$professores,
+        ]);
     }
     public function cadastar(): void
     {
