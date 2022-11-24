@@ -5,7 +5,7 @@ use DateTime;
 // aqui vai ficar a definição do caminho até essa classe
 class Aluno extends Pessoa
 {
-    public DateTime $dataNascimento;
+    public string $dataNascimento;
     public int $matricula;
     public bool $status;
     public string $genero; //enum
