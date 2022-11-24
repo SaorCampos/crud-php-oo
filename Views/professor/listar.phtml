@@ -28,7 +28,7 @@
                             <td>{$professor->status}</td>
                             <td>{$professor->formação}</td>
                             <td>
-                                <a href='/editar?id={$professor->id}' class='btn btn-outline-warning'>Editar</a>
+                                <a href='/professores/editar?id={$professor->id}' class='btn btn-outline-warning'>Editar</a>
                                 <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modalexcluir' onclick='pegarID({$professor->id})'>Excluir</button>
                             </td>
                         </tr>
@@ -64,7 +64,7 @@
     function confirmar(){
         if(true === confirm('Tem certeza mesmo?')){
             id= idatual.value;
-            location.href = '/excluir?id='+id;
+            location.href = '/professores/excluir?id='+id;
         }
     }
 </script>
