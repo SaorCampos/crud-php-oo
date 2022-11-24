@@ -34,5 +34,9 @@ nome varchar(100) NOT NULL UNIQUE,
 cargaHoraria INT(3) NOT NULL,
 descricao varchar(100) NOT NULL,
 status TINYINT NOT NULL,
-ementa varchar(255) NOT NULL
+ementa text NOT NULL
 );
+INSERT INTO tb_cursos
+(nome, cargaHoraria, descricao, status, ementa)
+VALUES
+('Sou-Dev', 312, 'Curso Full-Stack', true, 'HTML, CSS, JS, REACT, NODE, Express.js, Bancos de dados, Deploy, PHP, Magento');

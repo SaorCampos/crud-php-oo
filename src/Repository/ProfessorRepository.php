@@ -27,7 +27,10 @@ class ProfessorRepository implements RepositoryInterface
     }
     public function excluir(string $id): void
     {
-        
+        $conexao = DatabaseConnection::abrirConexao();
+        $sql = "DELETE FROM ".self::TABLE;
+        $query = $conexao->query($sql);
+        $query->execute();
     }
     public function inserir(object $dados): object
     {

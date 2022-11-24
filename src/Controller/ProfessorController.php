@@ -20,7 +20,11 @@ class ProfessorController extends AbstractController
     }
     public function excluir(): void
     {
+        $id = $_GET['id'];
+        $rep = new ProfessorRepository();
+        $rep->excluir($id);
         $this->render('professor/excluir');
+        $this->redirect("/professores/listar");
     }
     public function editar(): void
     {

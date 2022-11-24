@@ -18,24 +18,26 @@
             </tr>
         </thead>
         <tbody>
-            <?php 
-                foreach ($alunos as $aluno){
-                    echo "
-                        <tr>
-                            <td>{$aluno->id}</td>
-                            <td>{$aluno->nome}</td>
-                            <td>{$aluno->matricula}</td>
-                            <td>{$aluno->cpf}</td>
-                            <td>{$aluno->email}</td>
-                            <td>{$aluno->genero}</td>
-                            <td>{$aluno->status}</td>
-                            <td>{$aluno->dataNascimento}</td>
-                            <td>
-                                <a href='/editar?id={$aluno->id}' class='btn btn-outline-warning'>Editar</a>
-                                <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modalexcluir' onclick='pegarID({$aluno->id})'>Excluir</button>
-                            </td>
-                        </tr>
-                    ";
+            <?php
+                if(isset($alunos)&& sizeof($alunos) > 0){
+                    foreach ($alunos as $aluno){
+                        echo "
+                            <tr>
+                                <td>{$aluno->id}</td>
+                                <td>{$aluno->nome}</td>
+                                <td>{$aluno->matricula}</td>
+                                <td>{$aluno->cpf}</td>
+                                <td>{$aluno->email}</td>
+                                <td>{$aluno->genero}</td>
+                                <td>{$aluno->status}</td>
+                                <td>{$aluno->dataNascimento}</td>
+                                <td>
+                                    <a href='/editar?id={$aluno->id}' class='btn btn-outline-warning'>Editar</a>
+                                    <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modalexcluir' onclick='pegarID({$aluno->id})'>Excluir</button>
+                                </td>
+                            </tr>
+                        ";
+                }
                 }
             ?>
         </tbody>
