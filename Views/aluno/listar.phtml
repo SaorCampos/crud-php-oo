@@ -19,26 +19,24 @@
         </thead>
         <tbody>
             <?php
-                if(isset($alunos)&& sizeof($alunos) > 0){
-                    foreach ($alunos as $aluno){
-                        echo "
-                            <tr>
-                                <td>{$aluno->id}</td>
-                                <td>{$aluno->nome}</td>
-                                <td>{$aluno->matricula}</td>
-                                <td>{$aluno->cpf}</td>
-                                <td>{$aluno->email}</td>
-                                <td>{$aluno->genero}</td>
-                                <td>{$aluno->status}</td>
-                                <td>{$aluno->dataNascimento}</td>
-                                <td>
-                                    <a href='/alunos/editar?id={$aluno->id}' class='btn btn-outline-warning'>Editar</a>
-                                    <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modalexcluir' onclick='pegarID({$aluno->id})'>Excluir</button>
-                                </td>
-                            </tr>
+            foreach ($alunos ?? [] as $aluno) {
+                echo "
+                    <tr>
+                        <td>{$aluno->id}</td>
+                        <td>{$aluno->nome}</td>
+                        <td>{$aluno->matricula}</td>
+                        <td>{$aluno->cpf}</td>
+                        <td>{$aluno->email}</td>
+                        <td>{$aluno->genero}</td>
+                        <td>{$aluno->status}</td>
+                        <td>{$aluno->dataNascimento}</td>
+                        <td>
+                            <a href='/alunos/editar?id={$aluno->id}' class='btn btn-outline-warning'>Editar</a>
+                            <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modalexcluir' onclick='pegarID({$aluno->id})'>Excluir</button>
+                        </td>
+                    </tr>
                         ";
-                }
-                }
+            }
             ?>
         </tbody>
     </table>
@@ -62,13 +60,14 @@
     </div>
 </div>
 <script>
-    function pegarID(id){
+    function pegarID(id) {
         document.getElementById("idatual").value = id;
     }
-    function confirmar(){
-        if(true === confirm('Tem certeza mesmo?')){
-            id= idatual.value;
-            location.href = '/alunos/excluir?id='+id;
+
+    function confirmar() {
+        if (true === confirm('Tem certeza mesmo?')) {
+            id = idatual.value;
+            location.href = '/alunos/excluir?id=' + id;
         }
     }
 </script>

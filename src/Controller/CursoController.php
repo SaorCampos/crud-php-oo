@@ -18,7 +18,11 @@ class CursoController extends AbstractController
     }
     public function excluir(): void
     {
+        $id = $_GET['id'];
+        $rep = new CursoRepository();
+        $rep->excluir($id);
         $this->render('curso/excluir');
+        $this->redirect('/professores/listar');
     }
     public function editar(): void
     {

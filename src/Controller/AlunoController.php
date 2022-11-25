@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace App\Controller;
 
+use App\Model\Aluno;
 use App\Repository\AlunoRepository;
 
 class AlunoController extends AbstractController
@@ -16,11 +17,27 @@ class AlunoController extends AbstractController
     }
     public function cadastrar(): void
     {
-        $this->render('aluno/cadastrar');
+        if(true === empty($_POST)){
+            $this->render('aluno/cadastrar');
+            return;
+        }
+        $aluno = new Aluno();
+        $aluno->nome = $_POST['nome'];
+        $aluno->dataNascimento = $_POST['nascimento'];
+        $aluno->cpf = $_POST['cpf'];
+        $aluno->email = $_POST['email'];
+        $aluno->genero = $_POST['genero'];
+        $rep = new AlunoRepository();
+        $rep->inserir($aluno);
+        $this->redirect('/alunos/listar');
     }
     public function excluir(): void
     {
+        $id = $_GET['id'];
+        $rep = new AlunoRepository();
+        $rep->excluir($id);
         $this->render('aluno/excluir');
+        $this->redirect('/alunos/listar');
     }
     public function editar(): void
     {
