@@ -59,7 +59,7 @@ class AlunoController extends AbstractController
                 $rep->atualizar($aluno, $id);
             } catch (Exception $exception) {
                 if (true === str_contains($exception->getMessage(), 'cpf')) {
-                    die('CPF ja existe');
+                    die('CPF já existe');
                 }
                 if (true === str_contains($exception->getMessage(), 'email')) {
                     die('Email ja existe');

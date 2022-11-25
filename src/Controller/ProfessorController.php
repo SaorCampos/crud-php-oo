@@ -37,6 +37,27 @@ class ProfessorController extends AbstractController
         }
         $this->redirect('/professores/listar');
     }
+    public function editar(): void
+    {
+        $id = $_GET['id'];
+        $rep = new ProfessorRepository();
+        $professor = $rep->buscarUm($id);
+        $this->render('professor/editar', [$professor]);
+        if(false === empty($_POST)){
+            $professor->nome = $_POST['nome'];
+            $professor->cpf = $_POST['cpf'];
+            $professor->endereco = $_POST['endereco'];
+            $professor->formacao = $_POST['formacao'];
+            try{
+                $rep->atualizar($professor, $id);
+            } catch(Exception $exception){
+                if(true === str_contains($exception->getMessage(), 'cpf')){
+                    die('CPF já existe');
+                }
+            }
+        $this->redirect('/professores/listar');
+        }
+    }
     public function excluir(): void
     {
         $id = $_GET['id'];
@@ -44,9 +65,5 @@ class ProfessorController extends AbstractController
         $rep->excluir($id);
         $this->render('professor/excluir');
         $this->redirect("/professores/listar");
-    }
-    public function editar(): void
-    {
-        $this->render('professor/editar');
     }
 }

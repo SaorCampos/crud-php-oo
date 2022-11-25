@@ -21,9 +21,12 @@ class CursoRepository implements RepositoryInterface
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS, Curso::class);
     }
-    public function buscarUm(string $id): ?object
+    public function buscarUm(string $id): object
     {
-        return new \stdClass();
+        $sql = "SELECT * FROM ".self::TABLE." WHERE id ='{$id}'";
+        $query = $this->pdo->query($sql);
+        $query->execute();
+        return $query->fetchObject(Curso::class);
     }
     public function atualizar(object $dados, string $id): object
     {

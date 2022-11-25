@@ -1,10 +1,12 @@
 ### Requesitos necessários para executar o projeto:
-Instalar o PHP e
+Instalar o PHP,
+instalar o MySql e
 instalar o composer.
 
 ### Para iniciar o servidor:
 Dentro da pasta do projeto execute no terminal os seguintes comandos:
-`composer dump-autoload` e
+`composer dump-autoload`,
+`composer require dompdf/dompdf` e
 `php -S localhost:(porta desejada) -t public`;
 
 ## Criação do banco de dados:
