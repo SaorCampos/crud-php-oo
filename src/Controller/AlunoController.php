@@ -79,13 +79,20 @@ class AlunoController extends AbstractController
     }
     public function relatorio(): void
     {
+        require('../vendor/autoload.php');
+        $dompdf = new Dompdf(['enable_remote'=>true]);
+        ob_start();
+        require(__FILE__.'../Views/aluno/listar.phtml');
         $hoje = date('d/m/Y');
+        $html = ob_get_clean();
         $design = "
         <h1>Relatorio de Alunos</h1>
         <hr>
         <em>Gerado em {$hoje}</em>
+        <br>
+        <em>{$html}</em>
         ";
-        $dompdf = new Dompdf();
+        
         $dompdf->setPaper('A4', 'portrait');// tamanho da pagina
         $dompdf->loadHtml($design);//carrega o conteudo do pdf
         $dompdf->render();//aqui renderiza
