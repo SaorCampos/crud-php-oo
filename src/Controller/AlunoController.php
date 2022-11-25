@@ -82,7 +82,7 @@ class AlunoController extends AbstractController
         require('../vendor/autoload.php');
         $dompdf = new Dompdf(['enable_remote'=>true]);
         ob_start();
-        require(__FILE__.'../Views/aluno/listar.phtml');
+        require(__DIR__.'../../../Views/aluno/listar.phtml');
         $hoje = date('d/m/Y');
         $html = ob_get_clean();
         $design = "
@@ -92,7 +92,6 @@ class AlunoController extends AbstractController
         <br>
         <em>{$html}</em>
         ";
-        
         $dompdf->setPaper('A4', 'portrait');// tamanho da pagina
         $dompdf->loadHtml($design);//carrega o conteudo do pdf
         $dompdf->render();//aqui renderiza
