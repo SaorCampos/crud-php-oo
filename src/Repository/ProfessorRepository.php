@@ -16,9 +16,8 @@ class ProfessorRepository implements RepositoryInterface
     }
     public function buscarTodos(): iterable
     {
-        $conexao = DatabaseConnection::abrirConexao();
         $sql = 'SELECT * FROM '.self::TABLE;
-        $query = $conexao->query($sql);
+        $query = $this->pdo->query($sql);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS, Professor::class);
     }
@@ -32,13 +31,14 @@ class ProfessorRepository implements RepositoryInterface
     }
     public function excluir(string $id): void
     {
-        $conexao = DatabaseConnection::abrirConexao();
         $sql = "DELETE FROM ".self::TABLE." WHERE id = '{$id}'";
-        $query = $conexao->query($sql);
+        $query = $this->pdo->query($sql);
         $query->execute();
     }
     public function inserir(object $dados): object
     {
+        $sql = "INSERT INTO ".self::TABLE ."(nome, cpf, endereco, status, formacao) "."VALUES ('{$dados->nome}', '{$dados->cpf}', '{$dados->endereco}', '1', '{$dados->formacao}' );";
+        $this->pdo->query($sql);
         return $dados;
     }
 }

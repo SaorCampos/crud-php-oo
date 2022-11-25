@@ -2,7 +2,9 @@
 declare(strict_types=1);
 namespace App\Controller;
 
+use App\Model\Professor;
 use App\Repository\ProfessorRepository;
+use Exception;
 
 class ProfessorController extends AbstractController
 {
@@ -14,9 +16,26 @@ class ProfessorController extends AbstractController
             'professores'=>$professores,
         ]);
     }
-    public function cadastar(): void
+    public function cadastrar(): void
     {
-        $this->render('professor/cadastrar');
+        if(true === empty($_POST)){
+            $this->render('professor/cadastrar');
+            return;
+        }
+        $professor = new Professor();
+        $professor->nome = $_POST['nome'];
+        $professor->cpf = $_POST['cpf'];
+        $professor->endereco = $_POST['enderco'];
+        $professor->formacao = $_POST['formacao'];
+        $rep = new ProfessorRepository();
+        try{
+            $rep->inserir($professor);
+        }catch(Exception $exception){
+            if(true === str_contains($exception->getMessage(), 'cpf')){
+                die('CPF já existe');
+            }
+        }
+        $this->redirect('/professores/listar');
     }
     public function excluir(): void
     {
