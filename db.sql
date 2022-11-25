@@ -31,7 +31,7 @@ VALUES
 CREATE TABLE tb_cursos (
 id INT PRIMARY KEY auto_increment,
 nome varchar(100) NOT NULL UNIQUE,
-cargaHoraria INT(3) NOT NULL,
+cargaHoraria varchar(3) NOT NULL,
 descricao varchar(100) NOT NULL,
 status TINYINT NOT NULL,
 ementa text NOT NULL

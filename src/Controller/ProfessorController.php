@@ -25,7 +25,7 @@ class ProfessorController extends AbstractController
         $professor = new Professor();
         $professor->nome = $_POST['nome'];
         $professor->cpf = $_POST['cpf'];
-        $professor->endereco = $_POST['enderco'];
+        $professor->endereco = $_POST['endereco'];
         $professor->formacao = $_POST['formacao'];
         $rep = new ProfessorRepository();
         try{

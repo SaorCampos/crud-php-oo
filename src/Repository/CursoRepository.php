@@ -30,7 +30,7 @@ class CursoRepository implements RepositoryInterface
     }
     public function inserir(object $dados): object
     {
-        $sql = "INSERT INTO ".self::TABLE."(nome, cargaHoraria, descricao, status, categoria) "."VALUES ('{$dados->nome}', {$dados->cargaHoraria}', {$dados->descricao}', '1', {$dados->categoria}');";
+        $sql = "INSERT INTO ".self::TABLE ."(nome, cargaHoraria, descricao, status, categoria) "."VALUES ('{$dados->nome}', '{$dados->cargaHoraria}', '{$dados->descricao}', '1', '{$dados->categoria}' );";
         $this->pdo->query($sql);
         return $dados;
     }
