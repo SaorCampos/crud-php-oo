@@ -9,6 +9,11 @@ use PDO;
 class ProfessorRepository implements RepositoryInterface
 {
     public const TABLE = 'tb_professores';
+    public PDO $pdo;
+    public function __construct()
+    {
+        $this->pdo = DatabaseConnection::abrirConexao();
+    }
     public function buscarTodos(): iterable
     {
         $conexao = DatabaseConnection::abrirConexao();

@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Model\Aluno;
 use App\Repository\AlunoRepository;
+use Dompdf\Dompdf;
+use Exception;
 
 class AlunoController extends AbstractController
 {
@@ -28,7 +30,17 @@ class AlunoController extends AbstractController
         $aluno->email = $_POST['email'];
         $aluno->genero = $_POST['genero'];
         $rep = new AlunoRepository();
-        $rep->inserir($aluno);
+        try{
+            $rep->inserir($aluno);
+        } catch(Exception $exception){
+            if(true === str_contains($exception->getMessage(), 'cpf')){
+                die('CPF já existe');
+            }
+            if(true === str_contains($exception->getMessage(), 'email')){
+                die('Email já existe');
+            }
+            die('Vish, aconteceu um erro');
+        }
         $this->redirect('/alunos/listar');
     }
     public function excluir(): void
@@ -42,5 +54,19 @@ class AlunoController extends AbstractController
     public function editar(): void
     {
         $this->render('aluno/editar');
+    }
+    public function relatorio(): void
+    {
+        $hoje = date('d/m/Y');
+        $design = "
+        <h1>Relatorio de Alunos</h1>
+        <hr>
+        <em>Gerado em {$hoje}</em>
+        ";
+        $dompdf = new Dompdf();
+        $dompdf->setPaper('A4', 'portrait');// tamanho da pagina
+        $dompdf->loadHtml($design);//carrega o conteudo do pdf
+        $dompdf->render();//aqui renderiza
+        $dompdf->stream();//é aqui que a magica acontece
     }
 }
