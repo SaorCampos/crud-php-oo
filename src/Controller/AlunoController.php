@@ -62,7 +62,7 @@ class AlunoController extends AbstractController
                     die('CPF já existe');
                 }
                 if (true === str_contains($exception->getMessage(), 'email')) {
-                    die('Email ja existe');
+                    die('Email já existe');
                 }
                 die('Vish, aconteceu um erro');
             }

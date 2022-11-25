@@ -30,7 +30,7 @@ class AlunoRepository implements RepositoryInterface
     }
     public function inserir(object $dados): object
     {
-        $matricula = date('Ymd').substr($dados->cpf,-2);
+        $matricula = date('Ymd').substr($dados->cpf,-4);
         $sql = "INSERT INTO ".self::TABLE ."(nome, email, cpf, matricula, status, dataNascimento, genero) "."VALUES ('{$dados->nome}', '{$dados->email}', '{$dados->cpf}', '{$matricula}', '1', '{$dados->dataNascimento}', '{$dados->genero}');";
         $this->pdo->query($sql);
         return $dados;

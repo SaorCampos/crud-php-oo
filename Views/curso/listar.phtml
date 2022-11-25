@@ -26,7 +26,7 @@
                         <td>{$curso->cargaHoraria}</td>
                         <td>{$curso->descricao}</td>
                         <td>{$curso->status}</td>
-                        <td>{$curso->ementa}</td>
+                        <td>{$curso->categoria}</td>
                         <td>
                             <a href='/cursos/editar?id={$curso->id}' class='btn btn-outline-warning'>Editar</a>
                             <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modalexcluir' onclick='pegarID({$curso->id})'>Excluir</button>

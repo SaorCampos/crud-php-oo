@@ -28,9 +28,22 @@ class CursoRepository implements RepositoryInterface
         $query->execute();
         return $query->fetchObject(Curso::class);
     }
-    public function atualizar(object $dados, string $id): object
+    public function inserir(object $dados): object
     {
+        $sql = "INSERT INTO ".self::TABLE."(nome, cargaHoraria, descricao, status, categoria) "."VALUES ('{$dados->nome}', {$dados->cargaHoraria}', {$dados->descricao}', '1', {$dados->categoria}');";
+        $this->pdo->query($sql);
         return $dados;
+    }
+    public function atualizar(object $novosDados, string $id): object
+    {
+        $sql = "UPDATE ".self::TABLE." SET
+            nome='{$novosDados->nome}',
+            cargaHoraria='{$novosDados->cargaHoraria}',
+            descricao='{$novosDados->descricao}',
+            categoria='{$novosDados->categoria}'
+            WHERE id = '{$id}';";
+        $this->pdo->query($sql);
+        return $novosDados;
     }
     public function excluir(string $id): void
     {
@@ -38,8 +51,5 @@ class CursoRepository implements RepositoryInterface
         $query = $this->pdo->query($sql);
         $query->execute();
     }
-    public function inserir(object $dados): object
-    {
-        return $dados;
-    }
+    
 }
