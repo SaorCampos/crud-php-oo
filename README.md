@@ -5,8 +5,8 @@ instalar o composer.
 
 ### Para iniciar o servidor:
 Dentro da pasta do projeto execute no terminal os seguintes comandos:
-`composer dump-autoload`,
-`composer require dompdf/dompdf` e
+`composer install`
+e
 `php -S localhost:(porta desejada) -t public`;
 
 ## Criação do banco de dados:
