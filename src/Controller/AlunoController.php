@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace App\Controller;
-
+require "../Repository/AlunoRepository.php";
 use App\Model\Aluno;
 use App\Repository\AlunoRepository;
 use Dompdf\Dompdf;
@@ -77,20 +77,19 @@ class AlunoController extends AbstractController
         $this->render('aluno/excluir');
         $this->redirect('/alunos/listar');
     }
+    
     public function relatorio(): void
     {
-        require('../vendor/autoload.php');
         $dompdf = new Dompdf(['enable_remote'=>true]);
-        ob_start();
-        require(__DIR__.'../../../Views/aluno/listar.phtml');
         $hoje = date('d/m/Y');
-        $html = ob_get_clean();
+        require "../Repository/AlunoRepository.php";
+        $html = buscarTodos();
         $design = "
         <h1>Relatorio de Alunos</h1>
         <hr>
         <em>Gerado em {$hoje}</em>
         <br>
-        <em>{$html}</em>
+        <em></em>
         ";
         $dompdf->setPaper('A4', 'portrait');// tamanho da pagina
         $dompdf->loadHtml($design);//carrega o conteudo do pdf
