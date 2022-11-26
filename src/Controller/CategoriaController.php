@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace App\Controller;
 
-use APP\Model\Categoria;
+use App\Model\Categoria;
 use Exception;
 use App\Repository\CategoriaRepository;
 
@@ -35,7 +35,7 @@ class CategoriaController extends AbstractController
     }
     public function editar(): void
     {
-        $id = $_GET['$id'];
+        $id = $_GET['id'];
         $rep = new CategoriaRepository();
         $categoria = $rep->buscarUm($id);
         $this->render('categoria/editar', [$categoria]);
@@ -49,8 +49,8 @@ class CategoriaController extends AbstractController
                 }
                 die(var_dump($exception));
             }
+            $this->redirect('/categorias/listar');
         }
-        $this->redirect('/categorias/listar');
     }
     public function excluir(): void
     {
@@ -58,6 +58,6 @@ class CategoriaController extends AbstractController
         $rep = new CategoriaRepository();
         $rep->excluir($id);
         $this->render('categoria/excluir');
-        $this->redirect('categorias/listar');
+        $this->redirect('/categorias/listar');
     }
 }
