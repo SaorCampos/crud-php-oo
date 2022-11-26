@@ -2,9 +2,9 @@
 declare(strict_types=1);
 namespace App\Repository;
 
+use App\Connection\DatabaseConnection;
 use App\Model\Categoria;
 use PDO;
-use App\Connection\DatabaseConnection;
 
 class CategoriaRepository implements RepositoryInterface
 {
@@ -21,7 +21,7 @@ class CategoriaRepository implements RepositoryInterface
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS, Categoria::class);
     }
-    public function buscarUm(string $id): ?object
+    public function buscarUm(string $id): object
     {
         $sql = "SELECT * FROM ".self::TABLE." WHERE id ='{$id}'";
         $query = $this->pdo->query($sql);
@@ -37,8 +37,7 @@ class CategoriaRepository implements RepositoryInterface
     public function atualizar(object $novosDados, string $id): object
     {
         $sql = "UPDATE ".self::TABLE." SET
-            nome='{$novosDados->nome}'
-            WHERE id = '{$id}';";
+            nome='{$novosDados->nome}' WHERE id = '{$id}';";
         $this->pdo->query($sql);
         return $novosDados;
     }

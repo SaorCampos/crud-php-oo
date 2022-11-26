@@ -30,7 +30,7 @@ VALUES
 ('Allan', 'rua Idelfonso Albano,  222, ap 1403', true, 'Chuchu, Cachorro e Saboroso', '41235678901');
 CREATE TABLE tb_categoria (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(75) NOT NULL,
+    nome VARCHAR(75) NOT NULL,
     PRIMARY KEY (id)
 );
 INSERT INTO tb_categoria (id, nome) 
