@@ -76,18 +76,33 @@ class AlunoController extends AbstractController
         $this->render('aluno/excluir');
         $this->redirect('/alunos/listar');
     }
-    
     public function relatorio(): void
     {
         $hoje = date('d/m/Y');
-        $rep = new AlunoRepository();
-        $alunos = $rep->buscarTodos();
-        $design = "
+        // $rep = new AlunoRepository();
+        // $alunos = $rep->buscarTodos();
+        function renderizar(){
+            foreach ($alunos ?? [] as $aluno) {
+            echo "
+                <tr>
+                    <td>{$aluno->id}</td>
+                    <td>{$aluno->nome}</td>
+                    <td>{$aluno->matricula}</td>
+                    <td>{$aluno->cpf}</td>
+                    <td>{$aluno->email}</td>
+                    <td>{$aluno->genero}</td>
+                    <td>{$aluno->status}</td>
+                    <td>{$aluno->dataNascimento}</td>
+                </tr>
+                    ";
+                }
+            }
+        $design =  "
             <h1>Relatorio de Alunos</h1>
             <hr>
             <em>Gerado em {$hoje}</em>
             <br>
-            <em>{}</em>
+            <em>".renderizar()."</em>
         ";
         $dompdf = new Dompdf();
         $dompdf->setPaper('A4', 'portrait'); // tamanho da pagina
