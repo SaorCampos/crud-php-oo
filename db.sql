@@ -34,7 +34,10 @@ CREATE TABLE tb_categoria (
     PRIMARY KEY (id)
 );
 INSERT INTO tb_categoria (id, nome) 
-VALUES ('1', 'Profissionalizante');
+VALUES
+('1', 'Profissionalizante'),
+('2', 'Técnico'),
+('3', 'Graduação');
 CREATE TABLE tb_cursos (
 id INT  PRIMARY KEY AUTO_INCREMENT,
 nome varchar(100) NOT NULL UNIQUE,

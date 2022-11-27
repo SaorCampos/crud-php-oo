@@ -95,6 +95,7 @@ class AlunoController extends AbstractController
                     <td>{$aluno->dataNascimento}</td>
                 </tr>
                     ";
+                    return $aluno ;
                 }
             }
         $design =  "
