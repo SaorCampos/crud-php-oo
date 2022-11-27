@@ -79,10 +79,10 @@ class AlunoController extends AbstractController
     public function relatorio(): void
     {
         $hoje = date('d/m/Y');
-        // $rep = new AlunoRepository();
-        // $alunos = $rep->buscarTodos();
         function renderizar(){
-            foreach ($alunos ?? [] as $aluno) {
+            $rep = new AlunoRepository();
+            $alunos = $rep->buscarTodos();
+            foreach ($alunos as $aluno) {
             echo "
                 <tr>
                     <td>{$aluno->id}</td>

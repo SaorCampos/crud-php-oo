@@ -10,15 +10,18 @@
                 <label for="descricao">Descrição</label>
                 <input type="text" name="descricao" id="descricao" class="form-control mb-3">
                 <label for="categoria">Categoria</label>
+                <input type="hidden" name="categoriaId" value="{$categoria->id}">
                     <select name="categoria" id="categoria">
                     <option option value="" disabled selected> -- Selecione -- </option>
                         <?php
                             foreach($categorias as $categoria){
-                                echo "<option value='{$categoria->pegarId()}'>{$categoria->pegarNome()}</option>";
+                                echo "<option value='{$categoria->id}'>{$categoria->nome}</option>";
                             }
                             ?>
                     </select>
-                <button type="submit" class="btn btn-primary">Pronto</button>
+                    <div>
+                        <button type="submit" class="btn btn-primary mt-5">Pronto</button>
+                    </div>
             </form>
         </div>
     </div>

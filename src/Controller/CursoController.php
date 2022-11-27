@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\Curso;
 use App\Repository\CursoRepository;
+use App\Repository\CategoriaRepository;
 use Exception;
 
 class CursoController extends AbstractController
@@ -16,15 +17,17 @@ class CursoController extends AbstractController
     }
     public function cadastrar(): void
     {
+        $categoriaRep = new CategoriaRepository();
+        $categoria = $categoriaRep->buscarTodos();
         if(true === empty($_POST)){
-            $this->render('curso/cadastrar');
+            $this->render('curso/cadastrar', ['categoria' => $categoria]);
             return;
         }
         $curso = new Curso();
         $curso->nome = $_POST['nome'];
         $curso->cargaHoraria = $_POST['cargaHoraria'];
         $curso->descricao = $_POST['descricao'];
-        $curso->categoria = $_POST['categoria'];
+        $curso->setarIdCategoria((int) $_POST['categoria']);
         $rep = new CursoRepository();
         try{
             $rep->inserir($curso);
