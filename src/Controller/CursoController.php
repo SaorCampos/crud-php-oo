@@ -20,7 +20,7 @@ class CursoController extends AbstractController
         $categoriaRep = new CategoriaRepository();
         $categoria = $categoriaRep->buscarTodos();
         if(true === empty($_POST)){
-            $this->render('curso/cadastrar', ['categoria' => $categoria]);
+            $this->render('curso/cadastrar', ['categorias' => $categoria]);
             return;
         }
         $curso = new Curso();

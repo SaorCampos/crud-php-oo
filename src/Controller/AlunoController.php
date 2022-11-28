@@ -78,7 +78,6 @@ class AlunoController extends AbstractController
         $this->redirect('/alunos/listar');
     }
     private function renderizar(iterable $alunos){
-
         $resultado = '';
         foreach ($alunos as $aluno) {
         $resultado .= "
