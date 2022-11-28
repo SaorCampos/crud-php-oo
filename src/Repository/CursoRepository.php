@@ -24,14 +24,14 @@ class CursoRepository implements RepositoryInterface
     }
     public function buscarUm(string $id): object
     {
-        $sql = "SELECT * FROM ".self::TABLE." WHERE id ='{$id}'";
+        $sql = "SELECT * FROM ".self::TABLE." INNER JOIN tb_categoria on tb_cursos.categoria = tb_categoria.id WHERE tb_cursos.id ='{$id}'";
         $query = $this->pdo->query($sql);
         $query->execute();
         return $query->fetchObject(Curso::class);
     }
     public function inserir(object $dados): object
     {
-        $sql = "INSERT INTO ".self::TABLE ."(nome, cargaHoraria, descricao, status, categoria) "."VALUES ('{$dados->nome}', '{$dados->cargaHoraria}', '{$dados->descricao}', '1', '{$dados->categoria}' );";
+        $sql = "INSERT INTO ".self::TABLE ."(nome, cargaHoraria, descricao, status, categoria) "."VALUES ('{$dados->nome}', '{$dados->cargaHoraria}', '{$dados->descricao}', '1', '{$dados->pegarIdCategoria()}' );";
         $this->pdo->query($sql);
         return $dados;
     }
@@ -41,7 +41,7 @@ class CursoRepository implements RepositoryInterface
             nome='{$novosDados->nome}',
             cargaHoraria='{$novosDados->cargaHoraria}',
             descricao='{$novosDados->descricao}',
-            categoria='{$novosDados->categoria}'
+            categoria='{$novosDados->pegarIdCategoria()}'
             WHERE id = '{$id}';";
         $this->pdo->query($sql);
         return $novosDados;

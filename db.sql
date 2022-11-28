@@ -57,5 +57,5 @@ CREATE TABLE tb_usuario (
 INSERT INTO tb_cursos
 (nome, cargaHoraria, descricao, status, categoria)
 VALUES
-('FullStack', 192, 'Vai ficar top', 1, 1);
+('FullStack-01', 192, 'Curso Full-stack', 1, 1);
 SELECT * FROM tb_cursos INNER JOIN tb_categoria ON tb_cursos.categoria = tb_categoria.id;
