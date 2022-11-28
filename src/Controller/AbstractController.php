@@ -7,7 +7,7 @@ use Dompdf\Options;
 
 abstract class AbstractController
 {
-    public function render(string $view, ?array $dados = null, bool $navbar = true): void
+    public function render(string $view, ?array $dados = [], bool $navbar = true): void
     {
         extract($dados);
         include_once '../views/template/header.phtml';
@@ -19,18 +19,18 @@ abstract class AbstractController
     {
         header('location: '.$local);
     }
-    public function relatorio(string $onde, array $dados = []): void
-    {
-        extract($dados);
-        ob_start();
-        include_once('../../Views/{$onde}/relatorio.phtml');
-        $pdf = ob_get_clean();
-        $opcao = new Options();
-        $opcao->set('isRemoteEnabled', true);
-        $dompdf = new Dompdf($opcao);
-        $dompdf->loadHtml($pdf);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-        $dompdf->stream('relatorio.pdf', ['Attachment'=>0,]);
-    }
+    // public function relatorio( string $onde, array $dados = [] ):void
+    // {
+    //     extract($dados);
+    //     ob_start();
+    //     include_once ("../../Views/{$onde}/relatorio.phtml");
+    //     $pdf = ob_get_clean();
+    //     $opcao = new Options();
+    //     $opcao->set('isRemoteEnabled', true);
+    //     $dompdf = new Dompdf($opcao);
+    //     $dompdf->loadHtml($pdf); // carrega o conteudo do PDF
+    //     $dompdf->setPaper('A4', 'portrait'); //tamanho da pagina
+    //     $dompdf->render(); //aqui renderiza
+    //     $dompdf->stream('relatorio.pdf', ['Attachment'=> 0,]); //  é aqui que gera o pdf        
+    // }
 }

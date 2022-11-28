@@ -23,7 +23,7 @@ CREATE TABLE tb_professores (
     cpf CHAR(11) UNIQUE NOT NULL
 );
 INSERT INTO tb_professores
-(nome, endereço, status, formação, cpf)
+(nome, endereco, status, formacao, cpf)
 VALUES
 ('Alessandro', 'rua barca velha, 69', true, 'raw raw raw', '21345678901'),
 ('Gleidson(Lorão)', 'alameda dos anjos,  45', true, 'Rapaz...','31245678901'),

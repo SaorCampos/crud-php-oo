@@ -1,7 +1,5 @@
 <?php
-// solicitando ao composer que gerencie o carragamento automatico dos arquivos
-
-use App\Connection\DatabaseConnection;
+use App\Connection\DatabaseConnection; // solicitando ao composer que gerencie o carragamento automatico dos arquivos
 
 include_once '../vendor/autoload.php';
 include '../config/database.php';
