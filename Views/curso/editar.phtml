@@ -11,7 +11,7 @@
                 <input type="text" name="descricao" id="descricao" class="form-control mb-3" value="<?php echo $dados[0]->descricao; ?>">
                 <label for="categoria">Categoria</label>
                 <select name="categoria" id="categoria">
-                    <option option disabled selected> -- Selecione -- </option>
+                    <option value="<?php $categoria->pegarIdCategoria()?>" selected><?php $categoria->pegarCategoria() ?></option>
                         <?php
                             foreach($categorias as $categoria){
                                 echo "<option value='{$categoria->pegarId()}'>{$categoria->pegarNome()}</option>";
