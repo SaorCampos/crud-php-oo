@@ -8,10 +8,14 @@ use Exception;
 
 class AlunoController extends AbstractController
 {
+    private AlunoRepository $repository;
+    public function __construct()
+    {
+        $this->repository = new AlunoRepository();
+    }
     public function listar(): void
     {
-        $rep = new AlunoRepository();
-        $alunos = $rep->buscarTodos();
+        $alunos = $this->repository->buscarTodos();
         $this->render('aluno/listar', [
             'alunos'=>$alunos,
         ]);
@@ -28,9 +32,8 @@ class AlunoController extends AbstractController
         $aluno->cpf = $_POST['cpf'];
         $aluno->email = $_POST['email'];
         $aluno->genero = $_POST['genero'];
-        $rep = new AlunoRepository();
         try{
-            $rep->inserir($aluno);
+            $this->repository->inserir($aluno);
         } catch(Exception $exception){
             if(true === str_contains($exception->getMessage(), 'cpf')){
                 die('CPF já existe');
@@ -45,8 +48,7 @@ class AlunoController extends AbstractController
     public function editar(): void
     {
         $id = $_GET['id'];
-        $rep = new AlunoRepository();
-        $aluno = $rep->buscarUm($id);
+        $aluno = $this->repository->buscarUm($id);
         $this->render('aluno/editar', [$aluno]);
         if (false === empty($_POST)) {
             $aluno->nome = $_POST['nome'];
@@ -55,7 +57,7 @@ class AlunoController extends AbstractController
             $aluno->email = $_POST['email'];
             $aluno->genero = $_POST['genero'];
             try {
-                $rep->atualizar($aluno, $id);
+                $this->repository->atualizar($aluno, $id);
             } catch (Exception $exception) {
                 if (true === str_contains($exception->getMessage(), 'cpf')) {
                     die('CPF já existe');
@@ -71,44 +73,61 @@ class AlunoController extends AbstractController
     public function excluir(): void
     {
         $id = $_GET['id'];
-        $rep = new AlunoRepository();
-        $rep->excluir($id);
+        $this->repository->excluir($id);
         $this->render('aluno/excluir');
         $this->redirect('/alunos/listar');
     }
+    private function renderizar(iterable $alunos){
+
+        $resultado = '';
+        foreach ($alunos as $aluno) {
+        $resultado .= "
+            <tr>
+                <td>{$aluno->id}</td>
+                <td>{$aluno->nome}</td>
+                <td>{$aluno->matricula}</td>
+                <td>{$aluno->cpf}</td>
+                <td>{$aluno->email}</td>
+                <td>{$aluno->genero}</td>
+                <td>{$aluno->status}</td>
+                <td>{$aluno->dataNascimento}</td>
+            </tr>
+            ";
+            }
+            return $resultado;
+        }
     public function relatorio(): void
     {
         $hoje = date('d/m/Y');
-        function renderizar(){
-            $rep = new AlunoRepository();
-            $alunos = $rep->buscarTodos();
-            foreach ($alunos as $aluno) {
-            echo "
-                <tr>
-                    <td>{$aluno->id}</td>
-                    <td>{$aluno->nome}</td>
-                    <td>{$aluno->matricula}</td>
-                    <td>{$aluno->cpf}</td>
-                    <td>{$aluno->email}</td>
-                    <td>{$aluno->genero}</td>
-                    <td>{$aluno->status}</td>
-                    <td>{$aluno->dataNascimento}</td>
-                </tr>
-                    ";
-                    return $aluno ;
-                }
-            }
+        $alunos = $this->repository->buscarTodos();
+        
         $design =  "
             <h1>Relatorio de Alunos</h1>
             <hr>
             <em>Gerado em {$hoje}</em>
             <br>
-            <em>".renderizar()."</em>
+            <table border='1' width='100%' style='margin-top: 30px;'>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Matricula</th>
+                        <th>CPF</th>
+                        <th>Email</th>
+                        <th>Gênero</th>
+                        <th>Status</th>
+                        <th>Data Nascimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                ".$this->renderizar($alunos)."
+                </tbody>
+            </table>
         ";
         $dompdf = new Dompdf();
         $dompdf->setPaper('A4', 'portrait'); // tamanho da pagina
         $dompdf->loadHtml($design); //carrega o conteudo do PDF
         $dompdf->render(); //aqui renderiza 
-        $dompdf->stream(); //é aqui que a magica acontece
+        $dompdf->stream('relatorio-aluno.pdf',['Attachment' => 0,]); //é aqui que a magica acontece
     }
 }
