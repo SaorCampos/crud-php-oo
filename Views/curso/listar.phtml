@@ -21,15 +21,15 @@
                 foreach($cursos as $curso){
                     echo"
                     <tr>
-                        <td>{$curso->id}</td>
-                        <td>{$curso->nome}</td>
-                        <td>{$curso->cargaHoraria}</td>
-                        <td>{$curso->descricao}</td>
-                        <td>{$curso->status}</td>
-                        <td>{$curso->categoria}</td>
+                        <td>{$curso['id']}</td>
+                        <td>{$curso[1]}</td>
+                        <td>{$curso[2]}</td>
+                        <td>{$curso[3]}</td>
+                        <td>{$curso[4]}</td>
+                        <td>{$curso[7]}</td>
                         <td>
-                            <a href='/cursos/editar?id={$curso->id}' class='btn btn-outline-warning'>Editar</a>
-                            <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modalexcluir' onclick='pegarID({$curso->id})'>Excluir</button>
+                            <a href='/cursos/editar?id={$curso['id']}' class='btn btn-outline-warning'>Editar</a>
+                            <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modalexcluir' onclick='pegarID({$curso['id']})'>Excluir</button>
                         </td>
                     </tr>
                     ";

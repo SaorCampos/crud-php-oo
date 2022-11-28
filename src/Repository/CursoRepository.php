@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Connection\DatabaseConnection;
+use App\Model\Categoria;
 use App\Model\Curso;
 use PDO;
 
@@ -16,10 +17,10 @@ class CursoRepository implements RepositoryInterface
     }
     public function buscarTodos(): iterable
     {
-        $sql = 'SELECT * FROM '.self::TABLE;
+        $sql = 'SELECT * FROM '.self::TABLE.' INNER JOIN tb_categoria on tb_cursos.categoria = tb_categoria.id';
         $query = $this->pdo->query($sql);
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_CLASS, Curso::class);
+        return $query->fetchAll();
     }
     public function buscarUm(string $id): object
     {
