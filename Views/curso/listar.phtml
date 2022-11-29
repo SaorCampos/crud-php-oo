@@ -20,20 +20,20 @@
             <?php
             if(isset($cursos)&& sizeof($cursos) > 0){
                 foreach($cursos as $curso){
-                    echo"
-                    <tr>
-                        <td>{$curso['id']}</td>
-                        <td>{$curso[1]}</td>
-                        <td>{$curso[2]}</td>
-                        <td>{$curso[3]}</td>
-                        <td>{$curso[4]}</td>
-                        <td>{$curso[7]}</td>
-                        <td>
-                            <a href='/cursos/editar?id={$curso['id']}' class='btn btn-outline-warning'>Editar</a>
-                            <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modalexcluir' onclick='pegarID({$curso['id']})'>Excluir</button>
-                        </td>
-                    </tr>
-                    ";
+                    echo "
+                            <tr>
+                                <td>{$curso['curso_id']}</td>
+                                <td>{$curso['curso_nome']}</td>
+                                <td>{$curso['curso_status']}</td>
+                                <td>{$curso['curso_descricao']}</td>
+                                <td>{$curso['curso_carga_horaria']}</td>
+                                <td>{$curso['categoria_nome']}</td>
+                                <td>
+                                    <a href='/cursos/editar?id={$curso['curso_id']}' class='btn btn-warning'>Editar</a>
+                                    <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modalexcluir' onclick='pegarID({$curso['curso_id']})'>Excluir</button>
+                                </td>
+                            </tr>
+                        ";
                 }
             }
             ?>

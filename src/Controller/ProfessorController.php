@@ -17,7 +17,7 @@ class ProfessorController extends AbstractController
     }
     public function listar(): void
     {
-        $this->checarLogin();
+        // $this->checarLogin();
         $professores = $this->repository->buscarTodos();
         $this->render('professor/listar', [
             'professores'=>$professores,
@@ -101,12 +101,10 @@ class ProfessorController extends AbstractController
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
-                        <th>Matricula</th>
                         <th>CPF</th>
-                        <th>Email</th>
-                        <th>Gênero</th>
+                        <th>Endereço</th>
                         <th>Status</th>
-                        <th>Data Nascimento</th>
+                        <th>Formação</th>
                     </tr>
                 </thead>
                 <tbody>

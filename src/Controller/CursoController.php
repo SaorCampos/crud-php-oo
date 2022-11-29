@@ -18,7 +18,7 @@ class CursoController extends AbstractController
     }
     public function listar(): void
     {
-        $this->checarLogin();
+        // $this->checarLogin();
         $cursos = $this->repository->buscarTodos();
         $this->render('curso/listar',['cursos'=>$cursos,]);
     }
@@ -32,9 +32,9 @@ class CursoController extends AbstractController
         }
         $curso = new Curso();
         $curso->nome = $_POST['nome'];
-        $curso->cargaHoraria = $_POST['cargaHoraria'];
         $curso->descricao = $_POST['descricao'];
-        $curso->setarIdCategoria((int) $_POST['categoria']);
+        $curso->cargaHoraria = intval($_POST['cargaHoraria']);
+        $curso->categoria_id = intval($_POST['categoria']);
         try{
             $this->repository->inserir($curso);
         } catch(Exception $exception){
@@ -47,25 +47,20 @@ class CursoController extends AbstractController
     public function editar(): void
     {
         $id = $_GET['id'];
+        $rep = new CategoriaRepository();
+        $categorias = $rep->buscarTodos();
         $curso = $this->repository->buscarUm($id);
-        $this->categoriaRepository = new CategoriaRepository;
-        $this->render('curso/editar', [
-            $curso,
-            'categorias' => $this->categoriaRepository->buscarTodos()
-        ]); 
-        if(!empty($_POST)){
+        $this->render("/curso/editar", [
+            'categorias' => $categorias,
+            'curso' => $curso
+        ]);
+        if (false === empty($_POST)) {
+            $curso = new Curso();
             $curso->nome = $_POST['nome'];
-            $curso->cargaHoraria = $_POST['cargaHoraria'];
             $curso->descricao = $_POST['descricao'];
+            $curso->cargaHoraria = intval($_POST['cargaHoraria']);
             $curso->categoria_id = intval($_POST['categoria']);
-            try{
-                $this->repository->atualizar($curso, $id);
-            } catch(Exception $exception){
-                if(str_contains($exception->getMessage(), 'nome')){
-                    die('O curso já existe');
-                }
-                die('Vish, aconteceu um erro');
-            }
+            $this->repository->atualizar($curso, $id);
             $this->redirect('/cursos/listar');
         }
     }
@@ -82,12 +77,12 @@ class CursoController extends AbstractController
         foreach ($cursos as $curso){
             $resultado .= "
             <tr>
-                <td>{$curso['id']}</td>
-                <td>{$curso[1]}</td>
-                <td>{$curso[2]}</td>
-                <td>{$curso[3]}</td>
-                <td>{$curso[4]}</td>
-                <td>{$curso[7]}</td>
+            <td>{$curso['curso_id']}</td>
+            <td>{$curso['curso_nome']}</td>
+            <td>{$curso['curso_status']}</td>
+            <td>{$curso['curso_descricao']}</td>
+            <td>{$curso['curso_carga_horaria']}</td>
+            <td>{$curso['categoria_nome']}</td>
             </tr>
             ";
         }
@@ -107,12 +102,10 @@ class CursoController extends AbstractController
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
-                        <th>Matricula</th>
-                        <th>CPF</th>
-                        <th>Email</th>
-                        <th>Gênero</th>
                         <th>Status</th>
-                        <th>Data Nascimento</th>
+                        <th>Descrição</th>
+                        <th>Carga Horaria</th>
+                        <th>Categoria</th>
                     </tr>
                 </thead>
                 <tbody>

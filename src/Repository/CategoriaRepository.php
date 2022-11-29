@@ -8,7 +8,7 @@ use PDO;
 
 class CategoriaRepository implements RepositoryInterface
 {
-    public const TABLE = 'tb_categoria';
+    public const TABLE = 'tb_categorias';
     public PDO $pdo;
     public function __construct()
     {
