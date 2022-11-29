@@ -27,7 +27,6 @@ class CategoriaController extends AbstractController
         }
         $categoria = new Categoria();
         $categoria->nome = $_POST['nome'];
-        $rep = new CategoriaRepository();
         try{
             $this->repository->inserir($categoria);
         } catch(Exception $exception){

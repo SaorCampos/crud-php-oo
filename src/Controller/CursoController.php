@@ -5,14 +5,19 @@ namespace App\Controller;
 use App\Model\Curso;
 use App\Repository\CursoRepository;
 use App\Repository\CategoriaRepository;
+use Dompdf\Dompdf;
 use Exception;
 
 class CursoController extends AbstractController
 {
+    private CursoRepository $repository;
+    public function __construct()
+    {
+        $this->repository = new CategoriaRepository();
+    }
     public function listar(): void
     {
-        $rep = new CursoRepository();
-        $cursos = $rep->buscarTodos();
+        $cursos = $this->repository->buscarTodos();
         $this->render('curso/listar',['cursos'=>$cursos,]);
     }
     public function cadastrar(): void
@@ -28,9 +33,8 @@ class CursoController extends AbstractController
         $curso->cargaHoraria = $_POST['cargaHoraria'];
         $curso->descricao = $_POST['descricao'];
         $curso->setarIdCategoria((int) $_POST['categoria']);
-        $rep = new CursoRepository();
         try{
-            $rep->inserir($curso);
+            $this->repository->inserir($curso);
         } catch(Exception $exception){
             if(true === str_contains($exception->getMessage(), 'nome')){
                 die('Curso já existe');
@@ -41,8 +45,7 @@ class CursoController extends AbstractController
     public function editar(): void
     {
         $id = $_GET['id'];
-        $rep = new CursoRepository();
-        $curso = $rep->buscarUm($id);
+        $curso = $this->repository->buscarUm($id);
         $this->render('curso/editar', [$curso]);
         if(false === empty($_POST)){
             $curso->nome = $_POST['nome'];
@@ -50,7 +53,7 @@ class CursoController extends AbstractController
             $curso->descricao = $_POST['descricao'];
             $curso->categoria = $_POST['categoria'];
             try{
-                $rep->atualizar($curso, $id);
+                $this->repository->atualizar($curso, $id);
             }catch (Exception $exception){
                 if(true === str_contains($exception->getMessage(), 'nome')){
                     die('Curso já existe');
@@ -62,9 +65,58 @@ class CursoController extends AbstractController
     public function excluir(): void
     {
         $id = $_GET['id'];
-        $rep = new CursoRepository();
-        $rep->excluir($id);
+        $this->repository->excluir($id);
         $this->render('curso/excluir');
         $this->redirect('/cursos/listar');
+    }
+    private function renderizar(iterable $cursos)
+    {
+        $resultado = '';
+        foreach ($cursos as $curso){
+            $resultado .= "
+            <tr>
+                <td>{$curso['id']}</td>
+                <td>{$curso[1]}</td>
+                <td>{$curso[2]}</td>
+                <td>{$curso[3]}</td>
+                <td>{$curso[4]}</td>
+                <td>{$curso[7]}</td>
+            </tr>
+            ";
+        }
+        return $resultado;
+    }
+    public function relatorio(): void
+    {
+        $hoje = date('d/m/Y');
+        $cursos = $this->repository->buscarTodos();
+        $design =  "
+            <h1>Relatorio de Alunos</h1>
+            <hr>
+            <em>Gerado em {$hoje}</em>
+            <br>
+            <table border='1' width='100%' style='margin-top: 30px;'>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Matricula</th>
+                        <th>CPF</th>
+                        <th>Email</th>
+                        <th>Gênero</th>
+                        <th>Status</th>
+                        <th>Data Nascimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                ".$this->renderizar($cursos)."
+                </tbody>
+            </table>
+        ";
+        $dompdf = new Dompdf();
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->loadHtml($design);
+        $dompdf->render();
+        $dompdf->stream('relatorio-cursos.pdf', ['Attachment' => 0,]);
     }
 }

@@ -78,7 +78,8 @@ class AlunoController extends AbstractController
         $this->render('aluno/excluir');
         $this->redirect('/alunos/listar');
     }
-    private function renderizar(iterable $alunos){
+    private function renderizar(iterable $alunos)
+    {
         $resultado = '';
         foreach ($alunos as $aluno) {
         $resultado .= "
