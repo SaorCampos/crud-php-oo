@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Model\Categoria;
 use Exception;
 use App\Repository\CategoriaRepository;
+use App\Security\UsuarioSecurity;
 use Dompdf\Dompdf;
 
 class CategoriaController extends AbstractController
@@ -16,6 +17,9 @@ class CategoriaController extends AbstractController
     }
     public function listar(): void
     {
+        if(UsuarioSecurity::estaLogado() === false){
+            die('Erro, precisa estar logado');
+        }
         $categorias = $this->repository->buscarTodos();
         $this->render('categoria/listar', ['categorias'=>$categorias]);
     }

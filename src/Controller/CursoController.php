@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Model\Curso;
 use App\Repository\CursoRepository;
 use App\Repository\CategoriaRepository;
+use App\Security\UsuarioSecurity;
 use Dompdf\Dompdf;
 use Exception;
 
@@ -13,10 +14,13 @@ class CursoController extends AbstractController
     private CursoRepository $repository;
     public function __construct()
     {
-        $this->repository = new CategoriaRepository();
+        $this->repository = new CursoRepository();
     }
     public function listar(): void
     {
+        if(UsuarioSecurity::estaLogado() === false){
+            die('Erro, precisa estar logado');
+        }
         $cursos = $this->repository->buscarTodos();
         $this->render('curso/listar',['cursos'=>$cursos,]);
     }
@@ -46,7 +50,12 @@ class CursoController extends AbstractController
     {
         $id = $_GET['id'];
         $curso = $this->repository->buscarUm($id);
-        $this->render('curso/editar', [$curso]);
+        $categoriaRep = new CategoriaRepository();
+        $categoria = $categoriaRep->buscarTodos();
+        $this->render('curso/editar', [
+            'curso'=> $curso,
+            'categorias' => $categoria, 
+        ]);
         if(false === empty($_POST)){
             $curso->nome = $_POST['nome'];
             $curso->cargaHoraria = $_POST['cargaHoraria'];

@@ -13,7 +13,7 @@ class ProfessorController extends AbstractController
     private ProfessorRepository $repository;
     public function __construct()
     {
-        $this->repository = new AlunoRepository();
+        $this->repository = new ProfessorRepository();
     }
     public function listar(): void
     {

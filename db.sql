@@ -17,9 +17,9 @@ VALUES
 CREATE TABLE tb_professores (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
-    endereço VARCHAR(100) NOT NULL,
+    endereco VARCHAR(100) NOT NULL,
     status TINYINT NOT NULL,
-    formação VARCHAR(50),
+    formacao VARCHAR(50),
     cpf CHAR(11) UNIQUE NOT NULL
 );
 INSERT INTO tb_professores
@@ -54,6 +54,10 @@ CREATE TABLE tb_usuario (
     senha VARCHAR(255) NOT NULL,
     perfil VARCHAR(50) NOT NULL
 );
+INSERT INTO tb_usuario 
+(id, nome, email, senha, perfil) 
+VALUES 
+('1', 'ademiro', 'ademiro@email.com', '123456', 'admin');
 INSERT INTO tb_cursos
 (nome, cargaHoraria, descricao, status, categoria)
 VALUES

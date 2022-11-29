@@ -1,5 +1,6 @@
 <?php
 use App\Controller\AlunoController;
+use App\Controller\AuthController;
 use App\Controller\CursoController;
 use App\Controller\ProfessorController;
 use App\Controller\SiteController;
@@ -44,5 +45,8 @@ $rotas = [
     '/categorias/editar'=> criarRota(CategoriaController::class, 'editar'),
     '/categorias/excluir'=> criarRota(CategoriaController::class, 'excluir'),
     '/categorias/relatorio'=> criarRota(CategoriaController::class, 'relatorio'),
+
+    '/login'=> criarRota(AuthController::class, 'login'),
+    '/desconectar'=>criarRota(AuthController::class, 'desconectar'),
 ];
 return $rotas;

@@ -2,29 +2,29 @@
 declare(strict_types=1);
 namespace App\Controller;
 use App\Model\Usuario;
-use App\Repository\UsarioRepository;
+use App\Repository\UsuarioRepository;
 use Dompdf\Dompdf;
 use Excecption;
 use Exception;
 
 class UsuarioController extends AbstractController
 {
-    private UsarioRepository $repository;
+    private UsuarioRepository $repository;
     public function __construct()
     {
-        $this->repository = new UsarioRepository();
+        $this->repository = new UsuarioRepository();
     }
     public function cadastrar(): void
     {
         if(true === empty($_POST)){
-            $this->render('usario/cadastrar');
+            $this->render('usuario/cadastrar');
             return;
         }
         $senha = password_hash($_POST['senha'], PASSWORD_ARGON2I);
         $usuario = new Usuario();
         $usuario->nome = $_POST['nome'];
         $usuario->email = $_POST['email'];
-        $usuario->senha = $_POST['senha'];
+        $usuario->senha = $senha;
         $usuario->perfil = $_POST['perfil'];
         try{
             $this->repository->inserir($usuario);

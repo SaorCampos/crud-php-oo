@@ -2,6 +2,7 @@
 use App\Connection\DatabaseConnection; // solicitando ao composer que gerencie o carragamento automatico dos arquivos
 
 include_once '../vendor/autoload.php';
+session_start();
 include '../config/database.php';
 $rotas = require '../config/routes.php';
 $url = $_SERVER['REQUEST_URI']; //pegando a url acessada pelo usuario

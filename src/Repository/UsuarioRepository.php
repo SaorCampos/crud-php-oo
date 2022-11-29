@@ -6,7 +6,7 @@ use App\Connection\DatabaseConnection;
 use App\Model\Usuario;
 use PDO;
 
-class UsarioRepository implements RepositoryInterface
+class UsuarioRepository implements RepositoryInterface
 {
     public const TABLE = 'tb_usuario';
     public PDO $pdo;
@@ -24,6 +24,13 @@ class UsarioRepository implements RepositoryInterface
     public function buscarUm(string $id): ?object
     {
         $sql = "SELECT * FROM ".self::TABLE." WHERE id ='{$id}'";
+        $query = $this->pdo->query($sql);
+        $query->execute();
+        return $query->fetchObject(Usuario::class);
+    }
+    public function buscarUmPorEmail(string $email): Usuario | bool
+    {
+        $sql = "SELECT * FROM ".self::TABLE." WHERE email='{$email}'";
         $query = $this->pdo->query($sql);
         $query->execute();
         return $query->fetchObject(Usuario::class);
