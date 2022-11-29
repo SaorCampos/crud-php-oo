@@ -17,9 +17,7 @@ class AlunoController extends AbstractController
     }
     public function listar(): void
     {
-        if(UsuarioSecurity::estaLogado() === false){
-            die('Erro, precisa estar logado');
-        }
+        $this->checarLogin();
         $alunos = $this->repository->buscarTodos();
         $this->render('aluno/listar', [
             'alunos'=>$alunos,
@@ -27,6 +25,7 @@ class AlunoController extends AbstractController
     }
     public function cadastrar(): void
     {
+        $this->checarLogin();
         if(true === empty($_POST)){
             $this->render('aluno/cadastrar');
             return;
@@ -52,6 +51,7 @@ class AlunoController extends AbstractController
     }
     public function editar(): void
     {
+        $this->checarLogin();
         $id = $_GET['id'];
         $aluno = $this->repository->buscarUm($id);
         $this->render('aluno/editar', [$aluno]);
@@ -77,6 +77,7 @@ class AlunoController extends AbstractController
     }
     public function excluir(): void
     {
+        $this->checarLogin();
         $id = $_GET['id'];
         $this->repository->excluir($id);
         $this->render('aluno/excluir');

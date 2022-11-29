@@ -8,7 +8,7 @@ class Curso
     public string $descricao;
     public bool $status;
     public int $categoriaId;
-    public string $categoria;
+    public int $categoria;
 
     public function pegarIdCategoria(): int
     {
@@ -18,7 +18,7 @@ class Curso
     {
         $this->categoriaId = $categoriaId;
     }
-    public function pegarCategoria(): string
+    public function pegarCategoria(): int
     {
         return $this->categoria;
     }

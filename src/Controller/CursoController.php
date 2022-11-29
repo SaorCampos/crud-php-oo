@@ -18,9 +18,7 @@ class CursoController extends AbstractController
     }
     public function listar(): void
     {
-        if(UsuarioSecurity::estaLogado() === false){
-            die('Erro, precisa estar logado');
-        }
+        $this->checarLogin();
         $cursos = $this->repository->buscarTodos();
         $this->render('curso/listar',['cursos'=>$cursos,]);
     }
@@ -50,23 +48,23 @@ class CursoController extends AbstractController
     {
         $id = $_GET['id'];
         $curso = $this->repository->buscarUm($id);
-        $categoriaRep = new CategoriaRepository();
-        $categoria = $categoriaRep->buscarTodos();
+        $this->categoriaRepository = new CategoriaRepository;
         $this->render('curso/editar', [
-            'curso'=> $curso,
-            'categorias' => $categoria, 
-        ]);
-        if(false === empty($_POST)){
+            $curso,
+            'categorias' => $this->categoriaRepository->buscarTodos()
+        ]); 
+        if(!empty($_POST)){
             $curso->nome = $_POST['nome'];
             $curso->cargaHoraria = $_POST['cargaHoraria'];
             $curso->descricao = $_POST['descricao'];
-            $curso->categoria = $_POST['categoria'];
+            $curso->categoria_id = intval($_POST['categoria']);
             try{
                 $this->repository->atualizar($curso, $id);
-            }catch (Exception $exception){
-                if(true === str_contains($exception->getMessage(), 'nome')){
-                    die('Curso já existe');
+            } catch(Exception $exception){
+                if(str_contains($exception->getMessage(), 'nome')){
+                    die('O curso já existe');
                 }
+                die('Vish, aconteceu um erro');
             }
             $this->redirect('/cursos/listar');
         }

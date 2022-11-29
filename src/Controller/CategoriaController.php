@@ -17,14 +17,13 @@ class CategoriaController extends AbstractController
     }
     public function listar(): void
     {
-        if(UsuarioSecurity::estaLogado() === false){
-            die('Erro, precisa estar logado');
-        }
+        $this->checarLogin();
         $categorias = $this->repository->buscarTodos();
         $this->render('categoria/listar', ['categorias'=>$categorias]);
     }
     public function cadastrar(): void
     {
+        $this->checarLogin();
         if(true === empty($_POST)){
             $this->render('categoria/cadastrar');
             return;
@@ -43,6 +42,7 @@ class CategoriaController extends AbstractController
     }
     public function editar(): void
     {
+        $this->checarLogin();
         $id = $_GET['id'];
         $categoria = $this->repository->buscarUm($id);
         $this->render('categoria/editar', [$categoria]);
@@ -61,6 +61,7 @@ class CategoriaController extends AbstractController
     }
     public function excluir(): void
     {
+        $this->checarLogin();
         $id = $_GET['id'];
         $this->repository->excluir($id);
         $this->render('categoria/excluir');

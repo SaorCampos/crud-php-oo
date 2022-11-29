@@ -6,6 +6,7 @@ use App\Connection\DatabaseConnection;
 use App\Model\Categoria;
 use App\Model\Curso;
 use PDO;
+use stdClass;
 
 class CursoRepository implements RepositoryInterface
 {
@@ -24,10 +25,27 @@ class CursoRepository implements RepositoryInterface
     }
     public function buscarUm(string $id): object
     {
-        $sql = "SELECT * FROM ".self::TABLE." INNER JOIN tb_categoria on tb_cursos.categoria = tb_categoria.id WHERE tb_cursos.id ='{$id}'";
-        $query = $this->pdo->query($sql);
+        $conexao = DatabaseConnection::abrirConexao();
+        $sql = "SELECT 
+                    tb_cursos.id as curso_id,
+                    tb_cursos.nome as curso_nome,
+                    tb_cursos.descricao as curso_descricao,
+                    tb_cursos.cargaHoraria as curso_carga_horaria,
+                    tb_cursos.status as curso_status,
+                    tb_categoria.id as categoria,
+                    tb_categoria.nome as categoria_nome 
+                    FROM ".self::TABLE." INNER JOIN tb_categoria ON tb_cursos.categoria = tb_categoria.id WHERE tb_cursos.id = '{$id}'";
+        $query = $conexao->query($sql);
         $query->execute();
-        return $query->fetchObject(Curso::class);
+        $result = $query->fetch();
+        $curso = new Curso();
+        $curso->id = $result["curso_id"];
+        $curso->nome = $result["curso_nome"];
+        $curso->descricao = $result["curso_descricao"];
+        $curso->cargaHoraria = $result["curso_carga_horaria"];
+        $curso->categoria = intval($result["categoria"]);
+        var_dump($curso);
+        return $curso;
     }
     public function inserir(object $dados): object
     {
@@ -37,14 +55,17 @@ class CursoRepository implements RepositoryInterface
     }
     public function atualizar(object $novosDados, string $id): object
     {
-        $sql = "UPDATE ".self::TABLE." SET
-            nome='{$novosDados->nome}',
-            cargaHoraria='{$novosDados->cargaHoraria}',
-            descricao='{$novosDados->descricao}',
-            categoria='{$novosDados->pegarIdCategoria()}'
-            WHERE id = '{$id}';";
-        $this->pdo->query($sql);
-        return $novosDados;
+        $sql = "UPDATE " . self::TABLE . 
+        " SET 
+        nome = '{$novosDados->nome}',
+        descricao = '{$novosDados->descricao}',
+        status = 1,
+        cargaHoraria = '{$novosDados->cargaHoraria}',
+        categoria = '{$novosDados->categoria}' WHERE id = '{$id}'";
+
+    $this->pdo->query($sql);
+    
+    return $novosDados;
     }
     public function excluir(string $id): void
     {

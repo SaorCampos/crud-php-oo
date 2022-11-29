@@ -4,11 +4,11 @@
         <div class="col">
             <form action="#" method="POST">
                 <label for="nome">Nome</label>
-                <input type="text" name="nome" id="nome" class="form-control mb-3" value="<?php echo $dados['curso']->nome; ?>">
+                <input type="text" name="nome" id="nome" class="form-control mb-3" value="<?php echo $dados[0]->nome; ?>">
                 <label for="cargaHoraria">Carga Horária</label>
-                <input type="text" name="cargaHoraria" id="cargaHoraria" class="form-control mb-3" value="<?php echo $dados['curso']->cargaHoraria; ?>">
+                <input type="text" name="cargaHoraria" id="cargaHoraria" class="form-control mb-3" value="<?php echo $dados[0]->cargaHoraria; ?>">
                 <label for="descricao">Descrição</label>
-                <input type="text" name="descricao" id="descricao" class="form-control mb-3" value="<?php echo $dados['curso']->descricao; ?>">
+                <input type="text" name="descricao" id="descricao" class="form-control mb-3" value="<?php echo $dados[0]->descricao; ?>">
                 <label for="categoria">Categoria</label>
                 <select name="categoria" id="categoria">
                         <?php

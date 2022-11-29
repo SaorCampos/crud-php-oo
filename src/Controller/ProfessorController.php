@@ -17,6 +17,7 @@ class ProfessorController extends AbstractController
     }
     public function listar(): void
     {
+        $this->checarLogin();
         $professores = $this->repository->buscarTodos();
         $this->render('professor/listar', [
             'professores'=>$professores,
