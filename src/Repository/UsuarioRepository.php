@@ -16,14 +16,14 @@ class UsuarioRepository implements RepositoryInterface
     }
     public function buscarTodos(): iterable
     {
-        $sql = 'SELECT * FROM '.self::TABLE;
+        $sql = 'SELECT id, nome, email, perfil FROM '.self::TABLE;
         $query = $this->pdo->query($sql);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS, Usuario::class);
     }
     public function buscarUm(string $id): ?object
     {
-        $sql = "SELECT * FROM ".self::TABLE." WHERE id ='{$id}'";
+        $sql = "SELECT id, nome, email, perfil  ".self::TABLE." WHERE id ='{$id}'";
         $query = $this->pdo->query($sql);
         $query->execute();
         return $query->fetchObject(Usuario::class);
