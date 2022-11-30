@@ -26,4 +26,18 @@ abstract class AbstractController
             $this->redirect('/login');
         }
     }
+    public function relatorio( string $onde, array $dados = [] ):void
+    {
+        extract($dados);
+        ob_start();
+        include_once ("../Views/{$onde}/relatorio.phtml");
+        $pdf = ob_get_clean();
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new Dompdf($options);
+         $dompdf->loadHtml($pdf); // carrega o conteudo do PDF
+         $dompdf->setPaper('A4', 'portrait'); //tamanho da pagina
+         $dompdf->render(); //aqui renderiza
+         $dompdf->stream("relatorio-{$onde}.pdf", ['Attachment'=> 0,]); //  é aqui que gera o pdf        
+    }
 }

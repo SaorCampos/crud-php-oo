@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Model\Professor;
@@ -20,13 +22,13 @@ class ProfessorController extends AbstractController
         $this->checarLogin();
         $professores = $this->repository->buscarTodos();
         $this->render('professor/listar', [
-            'professores'=>$professores,
+            'professores' => $professores,
         ]);
     }
     public function cadastrar(): void
     {
         $this->checarLogin();
-        if(true === empty($_POST)){
+        if (true === empty($_POST)) {
             $this->render('professor/cadastrar');
             return;
         }
@@ -35,10 +37,10 @@ class ProfessorController extends AbstractController
         $professor->cpf = $_POST['cpf'];
         $professor->endereco = $_POST['endereco'];
         $professor->formacao = $_POST['formacao'];
-        try{
+        try {
             $this->repository->inserir($professor);
-        }catch(Exception $exception){
-            if(true === str_contains($exception->getMessage(), 'cpf')){
+        } catch (Exception $exception) {
+            if (true === str_contains($exception->getMessage(), 'cpf')) {
                 die('CPF já existe');
             }
         }
@@ -50,19 +52,19 @@ class ProfessorController extends AbstractController
         $id = $_GET['id'];
         $professor = $this->repository->buscarUm($id);
         $this->render('professor/editar', [$professor]);
-        if(false === empty($_POST)){
+        if (false === empty($_POST)) {
             $professor->nome = $_POST['nome'];
             $professor->cpf = $_POST['cpf'];
             $professor->endereco = $_POST['endereco'];
             $professor->formacao = $_POST['formacao'];
-            try{
+            try {
                 $this->repository->atualizar($professor, $id);
-            } catch(Exception $exception){
-                if(true === str_contains($exception->getMessage(), 'cpf')){
+            } catch (Exception $exception) {
+                if (true === str_contains($exception->getMessage(), 'cpf')) {
                     die('CPF já existe');
                 }
             }
-        $this->redirect('/professores/listar');
+            $this->redirect('/professores/listar');
         }
     }
     public function excluir(): void
@@ -73,52 +75,11 @@ class ProfessorController extends AbstractController
         $this->render('professor/excluir');
         $this->redirect("/professores/listar");
     }
-    private function renderizar(iterable $professores)
+    public function gerandoPDF(): void
     {
-        $resultado = '';
-        foreach($professores as $professor){
-            $resultado .= "
-            <tr>
-                <td>{$professor->id}</td>
-                <td>{$professor->nome}</td>
-                <td>{$professor->cpf}</td>
-                <td>{$professor->endereco}</td>
-                <td>{$professor->status}</td>
-                <td>{$professor->formacao}</td>
-            </tr>
-            ";
-            return $resultado;
-        }
-    }
-    public function relatorio(): void
-    {
-        $hoje = date('d/m/Y');
-        $professores = $this->repository->buscarTodos();
-        $design =  "
-            <h1>Relatorio de Alunos</h1>
-            <hr>
-            <em>Gerado em {$hoje}</em>
-            <br>
-            <table border='1' width='100%' style='margin-top: 30px;'>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>CPF</th>
-                        <th>Endereço</th>
-                        <th>Status</th>
-                        <th>Formação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                ".$this->renderizar($professores)."
-                </tbody>
-            </table>
-        ";
-        $dompdf = new Dompdf();
-        $dompdf->setPaper('A4','portrait');
-        $dompdf->loadHtml($design);
-        $dompdf->render();
-        $dompdf->stream('relatorio-professor.pdf', ['Attachment'=> 0,]);
+        $dados = $this->repository->buscarTodos();
+        $this->relatorio("professor", [
+            'professores' => $dados
+        ]);
     }
 }
