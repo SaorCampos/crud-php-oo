@@ -69,6 +69,7 @@ class UsuarioController extends AbstractController
         $id = $_GET['id'];
         $this->repository->excluir($id);
         $this->render('usuario/excluir');
+        WebNotification::add('Professor Removido', 'success');
         $this->redirect('/usuarios/listar');
     }
 }

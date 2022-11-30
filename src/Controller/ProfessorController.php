@@ -74,6 +74,7 @@ class ProfessorController extends AbstractController
         $id = $_GET['id'];
         $this->repository->excluir($id);
         $this->render('professor/excluir');
+        WebNotification::add('Professor Removido', 'success');
         $this->redirect("/professores/listar");
     }
     private function renderizar(iterable $professores)

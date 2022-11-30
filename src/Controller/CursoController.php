@@ -82,6 +82,7 @@ class CursoController extends AbstractController
         $id = $_GET['id'];
         $this->repository->excluir($id);
         $this->render('curso/excluir');
+        WebNotification::add('Curso Removido', 'success');
         $this->redirect('/cursos/listar');
     }
     private function renderizar(iterable $cursos)
