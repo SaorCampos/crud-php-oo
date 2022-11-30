@@ -23,23 +23,22 @@
         </thead>
         <tbody>
         <?php
-            function renderizar(iterable $professores)
-            {
-                $resultado = '';
-                foreach($professores as $professor){
-                    $resultado .= "
-                    <tr>
-                        <td>{$professor->id}</td>
-                        <td>{$professor->nome}</td>
-                        <td>{$professor->cpf}</td>
-                        <td>{$professor->formacao}</td>
-                        <td>{$professor->endereco}</td>
-                        <td>{$professor->status}</td>
-                    </tr>
-                    ";
-                    return $resultado;
-                }
+        foreach ($professores as $prof) {
+            if ($prof->status == 1 ){
+                $status = 'Ativo';
+            }else {
+                $status = 'Desativado';
             }
+            echo "
+            <tr>
+            <td><strong>{$prof->id}</strong></td>
+            <td>{$prof->nome}</td>
+            <td>{$prof->cpf}</td>
+            <td>{$prof->formacao}</td>
+            <td>{$prof->endereco}</td>
+            <td>{$status}</td>   
+            </tr>";
+        } 
     ?>
     </tbody>
     </table>
