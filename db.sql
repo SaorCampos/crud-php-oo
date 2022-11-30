@@ -59,6 +59,6 @@ CREATE TABLE tb_usuario (
 );
 INSERT INTO tb_usuario 
 (id, nome, email, senha, perfil) 
-VALUES 
-('1', 'ademiro', 'ademiro@email.com', '123456', 'admin');
+VALUES
+('1', 'admin', 'admin@admin.com', '$argon2i$v=19$m=65536,t=4,p=1$aTUxOC5udGNOL21KM29tNA$jiqG0IfXRvBAI+xhK6pSrlnTXqvVF8WyBlD4hXn4dEY', 'admin');
 SELECT * FROM tb_cursos INNER JOIN tb_categoria ON tb_cursos.categoria = tb_categoria.id;
