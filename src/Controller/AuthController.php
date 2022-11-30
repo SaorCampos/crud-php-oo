@@ -28,6 +28,7 @@ class AuthController extends AbstractController
             return;
         }
         $this->render('auth/login', navbar: false);
+        $this->redirect('/alunos/listar');
     }
     public function logout(): void
     {

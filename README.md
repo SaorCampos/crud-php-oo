@@ -15,8 +15,7 @@ MySQL/MariaDB para banco de dados
 Instalar o PHP,
 instalar o MySql ou MariaDB,
 instalar um editor de texto (por exemplo VS code),
-navegador web
-e
+navegador web e
 instalar o composer.
 Abra o diretório de instalação do PHP, encontre o arquivo *php.ini-production*, renomeio-o para *php.ini*.
 Encontre as seguintes linhas e descomente-as, removendo ";" que precede a linha.

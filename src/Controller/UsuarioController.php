@@ -14,6 +14,12 @@ class UsuarioController extends AbstractController
     {
         $this->repository = new UsuarioRepository();
     }
+    public function listar(): void
+    {
+        $this->checarLogin();
+        $usuarios = $this->repository->buscarTodos();
+        $this->render('usuario/listar',['usuarios'=>$usuarios,]);
+    }
     public function cadastrar(): void
     {
         if(true === empty($_POST)){
