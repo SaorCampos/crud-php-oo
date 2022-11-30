@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace App\Controller;
 use App\Model\Aluno;
+use App\Notification\WebNotification;
 use App\Repository\AlunoRepository;
 use App\Security\UsuarioSecurity;
 use Dompdf\Dompdf;
@@ -40,13 +41,14 @@ class AlunoController extends AbstractController
             $this->repository->inserir($aluno);
         } catch(Exception $exception){
             if(true === str_contains($exception->getMessage(), 'cpf')){
-                die('CPF já existe');
+                WebNotification::add('CPF já existe', 'danger');
             }
             if(true === str_contains($exception->getMessage(), 'email')){
-                die('Email já existe');
+                WebNotification::add('Email já existe', 'danger');
             }
-            die('Vish, aconteceu um erro');
+            WebNotification::add('Vish, aconteceu um erro','danger');
         }
+        WebNotification::add('Aluno Cadstrado', 'success');
         $this->redirect('/alunos/listar');
     }
     public function editar(): void
@@ -65,13 +67,14 @@ class AlunoController extends AbstractController
                 $this->repository->atualizar($aluno, $id);
             } catch (Exception $exception) {
                 if (true === str_contains($exception->getMessage(), 'cpf')) {
-                    die('CPF já existe');
+                    WebNotification::add('CPF já existe', 'danger');
                 }
                 if (true === str_contains($exception->getMessage(), 'email')) {
-                    die('Email já existe');
+                    WebNotification::add('Email já existe', 'danger');
                 }
-                die('Vish, aconteceu um erro');
+                WebNotification::add('Vish, aconteceu um erro', 'danger');
             }
+            WebNotification::add('Aluno Editado', 'success');
             $this->redirect('/alunos/listar');
         }
     }
@@ -81,6 +84,14 @@ class AlunoController extends AbstractController
         $id = $_GET['id'];
         $this->repository->excluir($id);
         $this->render('aluno/excluir');
+        WebNotification::add('Aluno Excluido', 'success');
         $this->redirect('/alunos/listar');
+    }
+    public function gerarPDF(): void
+    {
+        $dados = $this->repository->buscarTodos();
+        $this->relatorio("aluno", [
+            'alunos' => $dados
+        ]);
     }
 }

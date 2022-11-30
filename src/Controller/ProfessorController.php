@@ -1,10 +1,9 @@
 <?php
-
 declare(strict_types=1);
-
 namespace App\Controller;
 
 use App\Model\Professor;
+use App\Notification\WebNotification;
 use App\Repository\AlunoRepository;
 use App\Repository\ProfessorRepository;
 use Dompdf\Dompdf;
@@ -22,13 +21,13 @@ class ProfessorController extends AbstractController
         $this->checarLogin();
         $professores = $this->repository->buscarTodos();
         $this->render('professor/listar', [
-            'professores' => $professores,
+            'professores'=>$professores,
         ]);
     }
     public function cadastrar(): void
     {
         $this->checarLogin();
-        if (true === empty($_POST)) {
+        if(true === empty($_POST)){
             $this->render('professor/cadastrar');
             return;
         }
@@ -37,13 +36,14 @@ class ProfessorController extends AbstractController
         $professor->cpf = $_POST['cpf'];
         $professor->endereco = $_POST['endereco'];
         $professor->formacao = $_POST['formacao'];
-        try {
+        try{
             $this->repository->inserir($professor);
-        } catch (Exception $exception) {
-            if (true === str_contains($exception->getMessage(), 'cpf')) {
-                die('CPF já existe');
+        }catch(Exception $exception){
+            if(true === str_contains($exception->getMessage(), 'cpf')){
+                WebNotification::add('CPF já existe', 'danger');
             }
         }
+        WebNotification::add('Professor Cadastrado', 'success');
         $this->redirect('/professores/listar');
     }
     public function editar(): void
@@ -52,19 +52,20 @@ class ProfessorController extends AbstractController
         $id = $_GET['id'];
         $professor = $this->repository->buscarUm($id);
         $this->render('professor/editar', [$professor]);
-        if (false === empty($_POST)) {
+        if(false === empty($_POST)){
             $professor->nome = $_POST['nome'];
             $professor->cpf = $_POST['cpf'];
             $professor->endereco = $_POST['endereco'];
             $professor->formacao = $_POST['formacao'];
-            try {
+            try{
                 $this->repository->atualizar($professor, $id);
-            } catch (Exception $exception) {
-                if (true === str_contains($exception->getMessage(), 'cpf')) {
-                    die('CPF já existe');
+            } catch(Exception $exception){
+                if(true === str_contains($exception->getMessage(), 'cpf')){
+                    WebNotification::add('CPF já existe', 'danger');
                 }
             }
-            $this->redirect('/professores/listar');
+        WebNotification::add('Professor Editado', 'success');
+        $this->redirect('/professores/listar');
         }
     }
     public function excluir(): void
@@ -73,9 +74,10 @@ class ProfessorController extends AbstractController
         $id = $_GET['id'];
         $this->repository->excluir($id);
         $this->render('professor/excluir');
+        WebNotification::add('Professor Removido', 'success');
         $this->redirect("/professores/listar");
     }
-    public function gerandoPDF(): void
+    public function gerarPDF(): void
     {
         $dados = $this->repository->buscarTodos();
         $this->relatorio("professor", [
