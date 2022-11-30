@@ -18,12 +18,13 @@ class CursoController extends AbstractController
     }
     public function listar(): void
     {
-        // $this->checarLogin();
+        $this->checarLogin();
         $cursos = $this->repository->buscarTodos();
         $this->render('curso/listar',['cursos'=>$cursos,]);
     }
     public function cadastrar(): void
     {
+        $this->checarLogin();
         $categoriaRep = new CategoriaRepository();
         $categoria = $categoriaRep->buscarTodos();
         if(true === empty($_POST)){
@@ -46,6 +47,7 @@ class CursoController extends AbstractController
     }
     public function editar(): void
     {
+        $this->checarLogin();
         $id = $_GET['id'];
         $rep = new CategoriaRepository();
         $categorias = $rep->buscarTodos();
@@ -66,6 +68,7 @@ class CursoController extends AbstractController
     }
     public function excluir(): void
     {
+        $this->checarLogin();
         $id = $_GET['id'];
         $this->repository->excluir($id);
         $this->render('curso/excluir');

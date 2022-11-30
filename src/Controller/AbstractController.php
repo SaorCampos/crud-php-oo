@@ -20,10 +20,10 @@ abstract class AbstractController
     {
         header('location: '.$local);
     }
-    // public function checarLogin()
-    // {
-    //     if(UsuarioSecurity::estaLogado()===false){
-    //         $this->redirect('/login');
-    //     }
-    // }
+    public function checarLogin()
+    {
+        if(UsuarioSecurity::estaLogado()===false){
+            $this->redirect('/login');
+        }
+    }
 }

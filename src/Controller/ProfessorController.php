@@ -17,7 +17,7 @@ class ProfessorController extends AbstractController
     }
     public function listar(): void
     {
-        // $this->checarLogin();
+        $this->checarLogin();
         $professores = $this->repository->buscarTodos();
         $this->render('professor/listar', [
             'professores'=>$professores,
@@ -25,6 +25,7 @@ class ProfessorController extends AbstractController
     }
     public function cadastrar(): void
     {
+        $this->checarLogin();
         if(true === empty($_POST)){
             $this->render('professor/cadastrar');
             return;
@@ -45,6 +46,7 @@ class ProfessorController extends AbstractController
     }
     public function editar(): void
     {
+        $this->checarLogin();
         $id = $_GET['id'];
         $professor = $this->repository->buscarUm($id);
         $this->render('professor/editar', [$professor]);
@@ -65,6 +67,7 @@ class ProfessorController extends AbstractController
     }
     public function excluir(): void
     {
+        $this->checarLogin();
         $id = $_GET['id'];
         $this->repository->excluir($id);
         $this->render('professor/excluir');

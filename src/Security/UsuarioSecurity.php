@@ -19,8 +19,8 @@ abstract class UsuarioSecurity
         $usuario->password = '';
         $_SESSION['usuario_escola'] = $usuario;
     }
-    // public static function pegarUsuario(): Usuario
-    // {
-    //     return $_SESSION['usuario_escola'];
-    // }
+    public static function pegarUsuario(): Usuario
+    {
+        return $_SESSION['usuario_escola'];
+    }
 }

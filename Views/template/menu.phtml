@@ -1,15 +1,17 @@
 <nav class="mt-3 d-flex justify-content-between">
     <div class="text-start">
-        <a href="/" class="btn btn-outline-dark">Incio</a>
+        <a href="/" class="btn btn-outline-dark">Inicio</a>
         <a href="/alunos/listar" class="btn btn-outline-dark">Alunos</a>
         <a href="/professores/listar" class="btn btn-outline-dark">Professor</a>
-        <a href="/cursos/listar" class="btn btn-outline-dark">Cursos</a>
-        <a href="/categorias/listar" class="btn btn-outline-dark">Categorias</a>
-        <a href="/usuarios/listar" class="btn btn-outline-dark">Usuarios</a>
+        <a href="/cursos/listar" class="btn btn-outline-dark">Cursos</a> 
+        <a href="/usuarios/listar" class="btn btn-outline-dark">Usuários</a> 
     </div>
     <div class="text-end">
-
-        <a href="/logout" class="btn btn-outline-danger">Desconectar</a>
+        Bem vindo <?php echo App\Security\UsuarioSecurity::pegarUsuario()->nome; ?>
+        <a href="/desconectar" class="btn btn-outline-danger">Desconectar</a>
     </div>
 </nav>
 <hr>
+<br>
+<?php App\Notification\WebNotification::show(); ?>
+<br>
