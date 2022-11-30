@@ -72,4 +72,11 @@ class UsuarioController extends AbstractController
         WebNotification::add('Professor Removido', 'success');
         $this->redirect('/usuarios/listar');
     }
+    public function gerarPDF(): void
+    {
+        $dados = $this->repository->buscarTodos();
+        $this->relatorio("usuario", [
+            'usuarios' => $dados
+        ]);
+    }
 }

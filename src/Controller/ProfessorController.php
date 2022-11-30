@@ -77,52 +77,11 @@ class ProfessorController extends AbstractController
         WebNotification::add('Professor Removido', 'success');
         $this->redirect("/professores/listar");
     }
-    private function renderizar(iterable $professores)
+    public function gerarPDF(): void
     {
-        $resultado = '';
-        foreach($professores as $professor){
-            $resultado .= "
-            <tr>
-                <td>{$professor->id}</td>
-                <td>{$professor->nome}</td>
-                <td>{$professor->cpf}</td>
-                <td>{$professor->endereco}</td>
-                <td>{$professor->status}</td>
-                <td>{$professor->formacao}</td>
-            </tr>
-            ";
-            return $resultado;
-        }
-    }
-    public function relatorio(): void
-    {
-        $hoje = date('d/m/Y');
-        $professores = $this->repository->buscarTodos();
-        $design =  "
-            <h1>Relatorio de Alunos</h1>
-            <hr>
-            <em>Gerado em {$hoje}</em>
-            <br>
-            <table border='1' width='100%' style='margin-top: 30px;'>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>CPF</th>
-                        <th>Endereço</th>
-                        <th>Status</th>
-                        <th>Formação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                ".$this->renderizar($professores)."
-                </tbody>
-            </table>
-        ";
-        $dompdf = new Dompdf();
-        $dompdf->setPaper('A4','portrait');
-        $dompdf->loadHtml($design);
-        $dompdf->render();
-        $dompdf->stream('relatorio-professor.pdf', ['Attachment'=> 0,]);
+        $dados = $this->repository->buscarTodos();
+        $this->relatorio("professor", [
+            'professores' => $dados
+        ]);
     }
 }
