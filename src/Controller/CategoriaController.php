@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\Categoria;
+use App\Notification\WebNotification;
 use Exception;
 use App\Repository\CategoriaRepository;
 use App\Security\UsuarioSecurity;
@@ -34,10 +35,11 @@ class CategoriaController extends AbstractController
             $this->repository->inserir($categoria);
         } catch(Exception $exception){
             if(true === str_contains($exception->getMessage(), 'nome')){
-                die('Categoria já existe');
+                WebNotification::add('Categoria já existe', 'danger');
             }
             die(var_dump($exception));
         }
+        WebNotification::add('Categoria Criada', 'success');
         $this->redirect('/categorias/listar');
     }
     public function editar(): void
@@ -52,10 +54,11 @@ class CategoriaController extends AbstractController
                 $this->repository->atualizar($categoria, $id);
             }catch(Exception $exception){
                 if(true === str_contains($exception->getMessage(), 'nome')){
-                    die('Categoria já existe');
+                    WebNotification::add('Categoria já existe', 'danger');
                 }
                 die(var_dump($exception));
             }
+            WebNotification::add('Categoria Criada', 'success');
             $this->redirect('/categorias/listar');
         }
     }
@@ -65,6 +68,7 @@ class CategoriaController extends AbstractController
         $id = $_GET['id'];
         $this->repository->excluir($id);
         $this->render('categoria/excluir');
+        WebNotification::add('Categoria excluida', 'success');
         $this->redirect('/categorias/listar');
     }
     private function renderizar(iterable $categorias)

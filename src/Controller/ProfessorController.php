@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\Professor;
+use App\Notification\WebNotification;
 use App\Repository\AlunoRepository;
 use App\Repository\ProfessorRepository;
 use Dompdf\Dompdf;
@@ -39,9 +40,10 @@ class ProfessorController extends AbstractController
             $this->repository->inserir($professor);
         }catch(Exception $exception){
             if(true === str_contains($exception->getMessage(), 'cpf')){
-                die('CPF já existe');
+                WebNotification::add('CPF já existe', 'danger');
             }
         }
+        WebNotification::add('Professor Cadastrado', 'success');
         $this->redirect('/professores/listar');
     }
     public function editar(): void
@@ -59,9 +61,10 @@ class ProfessorController extends AbstractController
                 $this->repository->atualizar($professor, $id);
             } catch(Exception $exception){
                 if(true === str_contains($exception->getMessage(), 'cpf')){
-                    die('CPF já existe');
+                    WebNotification::add('CPF já existe', 'danger');
                 }
             }
+        WebNotification::add('Professor Editado', 'success');
         $this->redirect('/professores/listar');
         }
     }

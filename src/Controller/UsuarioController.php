@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace App\Controller;
 use App\Model\Usuario;
+use App\Notification\WebNotification;
 use App\Repository\UsuarioRepository;
 use Dompdf\Dompdf;
 use Excecption;
@@ -36,9 +37,10 @@ class UsuarioController extends AbstractController
             $this->repository->inserir($usuario);
         } catch(Exception $execption){
             if(true === str_contains($execption->getMessage(), 'email')){
-                die('Email já existe');
+                WebNotification::add('Email já existe', 'danger');
             }
         }
+        WebNotification::add('Usuario Cadastrado', 'success');
         $this->redirect('/usuarios/listar');
     }
     public function editar(): void
@@ -55,10 +57,11 @@ class UsuarioController extends AbstractController
                 $this->repository->atualizar($usuario, $id);
             }catch (Exception $execption){
                 if(true === str_contains($execption->getMessage(), 'email')){
-                    die('Email já existe');
+                    WebNotification::add('Email já existe', 'danger');
                 }
             }
         }
+        WebNotification::add('Usuario Editado', 'success');
         $this->redirect('/usuarios/listar');
     }
     public function excluir(): void

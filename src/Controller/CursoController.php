@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\Curso;
+use App\Notification\WebNotification;
 use App\Repository\CursoRepository;
 use App\Repository\CategoriaRepository;
 use App\Security\UsuarioSecurity;
@@ -40,9 +41,10 @@ class CursoController extends AbstractController
             $this->repository->inserir($curso);
         } catch(Exception $exception){
             if(true === str_contains($exception->getMessage(), 'nome')){
-                die('Curso já existe');
+                WebNotification::add('Curso já existe', 'danger');
             }
         }
+        WebNotification::add('Curso Criado', 'success');
         $this->redirect('/cursos/listar');
     }
     public function editar(): void
@@ -62,7 +64,15 @@ class CursoController extends AbstractController
             $curso->descricao = $_POST['descricao'];
             $curso->cargaHoraria = intval($_POST['cargaHoraria']);
             $curso->categoria_id = intval($_POST['categoria']);
-            $this->repository->atualizar($curso, $id);
+            try{
+                $this->repository->atualizar($curso, $id);
+            }catch(Exception $exception){
+                if (true === str_contains($exception->getMessage(), 'nome')) {
+                    WebNotification::add('CPF já existe', 'danger');
+                }
+                WebNotification::add('Vish, aconteceu um erro', 'danger');
+            }
+            WebNotification::add('Curso Criado', 'success');
             $this->redirect('/cursos/listar');
         }
     }
